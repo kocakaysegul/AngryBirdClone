@@ -13,17 +13,27 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    var bird2 = SKSpriteNode()
+    //var bird2 = SKSpriteNode()
+    var bird = SKSpriteNode()
     
     override func didMove(to view: SKView) {
+        /*
         let texture = SKTexture(imageNamed: "bird")
         bird2 = SKSpriteNode(texture: texture)
         bird2.position = CGPoint(x: 0.0, y: 0.0)
         bird2.size = CGSize(width: self.frame.width / 16, height: self.frame.height / 10)
         bird2.zPosition = 1 ;
         self.addChild(bird2)
+        */
         
-       
+        bird = childNode(withName: "bird") as! SKSpriteNode
+        let birdTexture = SKTexture(imageNamed: "bird")
+        bird.physicsBody = SKPhysicsBody(circleOfRadius: birdTexture.size().height/13)
+        bird.physicsBody?.affectedByGravity = true
+        bird.physicsBody?.isDynamic = true
+        bird.physicsBody?.mass = 0.5
+        
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
     }
     
     
