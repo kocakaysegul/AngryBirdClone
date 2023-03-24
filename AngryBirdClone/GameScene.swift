@@ -13,6 +13,8 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    var gameStarted = false
+    
     //var bird2 = SKSpriteNode()
     var bird = SKSpriteNode()
     var box1 = SKSpriteNode()
@@ -106,12 +108,49 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        /* //uçma işlemi
         bird.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 100))
         bird.physicsBody?.affectedByGravity = true
+         */
+        
+        if gameStarted == false {
+            if let touch = touches.first {
+                let touchLocation = touch.location(in: self)
+                let touchNodes = nodes(at: touchLocation)
+                
+                
+                if touchNodes.isEmpty == false {
+                    for node in touchNodes {
+                        if let sprite = node as? SKSpriteNode {
+                            if sprite == bird {
+                                bird.position = touchLocation
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if gameStarted == false {
+            if let touch = touches.first {
+                let touchLocation = touch.location(in: self)
+                let touchNodes = nodes(at: touchLocation)
+                
+                
+                if touchNodes.isEmpty == false {
+                    for node in touchNodes {
+                        if let sprite = node as? SKSpriteNode {
+                            if sprite == bird {
+                                bird.position = touchLocation
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
