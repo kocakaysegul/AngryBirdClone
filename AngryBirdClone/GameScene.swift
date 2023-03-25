@@ -22,6 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case Box = 2
     }
     
+    var score = 0
+    var scoreLabel = SKLabelNode()
+    
     
     //var bird2 = SKSpriteNode()
     var bird = SKSpriteNode()
@@ -43,8 +46,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         */
         
         
-        
-        
         //Physics Body
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         self.scene?.scaleMode = .aspectFit
@@ -63,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         bird.physicsBody?.contactTestBitMask = ColliderType.Bird.rawValue
         bird.physicsBody?.categoryBitMask = ColliderType.Bird.rawValue
-        bird.physicsBody?.collisionBitMask = ColliderType.Bird.rawValue
+        bird.physicsBody?.collisionBitMask = ColliderType.Box.rawValue
         
         
         //Box
@@ -115,10 +116,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         box5.physicsBody?.collisionBitMask = ColliderType.Bird.rawValue
         
+        
+        //Label
+        scoreLabel.fontName = "Menlo"
+        scoreLabel.fontSize = 60
+        scoreLabel.text = "0"
+        scoreLabel.position = CGPoint(x: 0, y: self.frame.height / 4)
+        scoreLabel.zPosition = 2
+        self.addChild(scoreLabel)
+        
+        
     }
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.contactTestBitMask == ColliderType.Bird.rawValue || contact.bodyB.contactTestBitMask == ColliderType.Bird.rawValue {
-            print("jgkfld")
+            score += 1
+            scoreLabel.text = String(score)
         }
     }
     
@@ -202,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 bird.physicsBody?.applyImpulse(impulse)
                                 bird.physicsBody?.affectedByGravity = true
                                 gameStarted = true
-
+                                
                                 
                                 
                             }
@@ -229,6 +241,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 bird.zPosition = 1
                 bird.position = originalPosition!
                 gameStarted = false
+                
+                score = 0
+                scoreLabel.text = String(score)
                 
             }
          }
